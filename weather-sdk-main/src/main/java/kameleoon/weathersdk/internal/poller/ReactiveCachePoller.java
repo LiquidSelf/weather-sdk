@@ -8,7 +8,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
-import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
 
 @Slf4j
@@ -38,23 +37,21 @@ public class ReactiveCachePoller<T> {
                 .flatMap(key -> fetchFunction.apply(key)
                         .flatMap(value -> cacheManager.put(key, value))
                         .onErrorResume(e -> {
-                            log.warn("Failed to update cache fo{}: {}", key, e.getMessage());
+                            log.error("Failed to update cache for {}: {}", key, e.getMessage());
                             return Mono.empty();
                         })
                 )
                 .timeout(pollTimeout)
-                .onErrorResume(TimeoutException.class, e -> {
-                    log.warn("Timeout while updating cities");
+                .onErrorResume(e -> {
+                    log.error("Error during cache update: {}", e.getMessage());
                     return Mono.empty();
                 })
                 .then();
     }
 
     public void start() {
-        this.pollingTask = Flux.interval(this.pollInterval)
-                .concatMap(tick -> updateCache())
-                .onErrorContinue((e, o) -> log.warn("Error during polling: {}", e.getMessage()))
-                .onBackpressureDrop()
+        this.pollingTask = Mono.defer(this::updateCache)
+                .repeatWhen(completed -> completed.delayElements(pollInterval))
                 .subscribe();
     }
 

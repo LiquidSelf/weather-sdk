@@ -61,3 +61,7 @@ simpleClient.close();
 - Mode.REQUEST_CACHE — enables request-level caching
 - Mode.POLLING_CACHE — periodically refreshes cache in the background
 ----------------------------------------
+
+### Areas for improvement
+- More isolated pool of threads
+- Built in rate-limiter, logging interceptors, circuit breaker, retries, metrics support e.t.c

@@ -10,6 +10,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
 @Slf4j
@@ -19,6 +21,7 @@ public class CachePoller<T> {
     private final Duration pollTimeout;
     private final CacheManager<T> cacheManager;
     private final ScheduledExecutorService scheduler;
+    private final AtomicBoolean polling = new AtomicBoolean(false);
 
     private final Function<String, CompletableFuture<T>> fetchFunction;
 
@@ -40,30 +43,30 @@ public class CachePoller<T> {
     }
 
     private void updateCache() {
-        try {
-            List<CompletableFuture<T>> futures = cacheManager.keySet().stream()
-                    .map(key -> CompletableFuture.supplyAsync(() -> {
-                        try {
-                            T value = fetchFunction.apply(key).join(); // join безопасно ждёт
-                            cacheManager.put(key, value);
-                            return value;
-                        } catch (Exception ex) {
-                            log.error("Failed to update city: {}", key, ex);
+        if (!polling.compareAndSet(false, true)) return;
+        List<CompletableFuture<Void>> futures = cacheManager.keySet().stream()
+                .map(key -> fetchFunction.apply(key)
+                        .thenAccept(value -> cacheManager.put(key, value))
+                        .exceptionally(ex -> {
+                            log.error("Failed to update key {}", key, ex);
                             return null;
+                        })
+                )
+                .toList();
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+                .orTimeout(pollTimeout.toMillis(), TimeUnit.MILLISECONDS)
+                .whenComplete((r, ex) -> {
+                    try {
+                        if (ex instanceof TimeoutException) {
+                            log.error("Polling timed out, cancelling pending tasks");
+                            futures.forEach(f -> f.cancel(true));
+                        } else if (ex != null) {
+                            log.error("Polling error", ex);
                         }
-                    }))
-                    .toList();
-
-            CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
-                    .orTimeout(pollTimeout.toMillis(), TimeUnit.MILLISECONDS)
-                    .exceptionally(e -> {
-                        log.error("Failed to update cities", e);
-                        return null;
-                    })
-                    .join();
-        } catch (Throwable t) {
-            log.error("Unexpected error in cache poller", t);
-        }
+                    } finally {
+                        polling.set(false);
+                    }
+                });
     }
 
     public void start() {

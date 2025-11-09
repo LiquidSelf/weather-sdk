@@ -82,7 +82,7 @@ public abstract class AbstractHttpClient implements WebApiClient {
         if (closed.get()) return CompletableFuture.failedFuture(new ApiClientException("Client is closed"));
 
         URI safeUri = maskApiKey(request.uri());
-        log.debug("Executing GET request to {}", safeUri);
+        log.debug("Preparing GET request to {}", safeUri);
         return httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenApply(response -> {
                     throwOnBadStatus(response, contextInfo);
