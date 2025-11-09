@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  kameleoon.weathersdkstarter.autoconfigure.cache.CacheManagerAutoConfiguration,\
+  kameleoon.weathersdkstarter.autoconfigure.cache.ReactiveCacheManagerAutoConfiguration,\
+  kameleoon.weathersdkstarter.autoconfigure.client.weather.WeatherApiClientAutoConfiguration,\
+  kameleoon.weathersdkstarter.autoconfigure.client.weather.WeatherApiReactiveClientAutoConfiguration,\

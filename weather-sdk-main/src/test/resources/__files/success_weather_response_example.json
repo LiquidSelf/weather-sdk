@@ -1,0 +1,41 @@
+{
+  "weather": [
+    {
+      "id": 803,
+      "main": "Clouds",
+      "description": "broken clouds",
+      "icon": "04n"
+    }
+  ],
+  "main": {
+    "temp": 262.01,
+    "feels_like": 256.21,
+    "temp_min": 262.01,
+    "temp_max": 262.01,
+    "pressure": 1040,
+    "humidity": 78,
+    "sea_level": 1040,
+    "grnd_level": 972
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 3.05,
+    "deg": 288,
+    "gust": 5.07
+  },
+  "clouds": {
+    "all": 83
+  },
+  "dt": 1762345289,
+  "sys": {
+    "type": 1,
+    "id": 8827,
+    "country": "KZ",
+    "sunrise": 1762308186,
+    "sunset": 1762342753
+  },
+  "timezone": 18000,
+  "id": 609655,
+  "name": "Karaganda",
+  "cod": 200
+}

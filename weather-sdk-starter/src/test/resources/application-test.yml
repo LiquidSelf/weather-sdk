@@ -1,0 +1,12 @@
+openweather:
+  client:
+    reactive: false
+    mode: POLLING_CACHE
+    base-url: "test_base_url_weather"
+    api-key: "test_api_key_weather"
+    poll-interval: 111s
+    poll-timeout: 111s
+    response-timeout: 111s
+    in-memory-cache:
+      max-cache-records: 10
+      cache-record-ttl: 10m
