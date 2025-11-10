@@ -25,7 +25,7 @@ public class WeatherApiReactiveClientAutoConfiguration {
     public WeatherApiReactiveClient reactiveClient(OpenWeatherApiConfigProperties properties,
                                                    ReactiveCacheManager<WeatherInfo> cacheManager
     ) {
-        log.info("Configuring WeatherApiReactiveClient client");
+        log.info("Configuring WeatherApiReactiveClient");
         return WeatherApiReactiveClient.builder()
                 .mode(properties.getMode())
                 .baseUrl(properties.getBaseUrl())
@@ -40,7 +40,7 @@ public class WeatherApiReactiveClientAutoConfiguration {
     @Bean
     @ConditionalOnExpression("('${openweather.client.mode:NO_CACHE}' == 'NO_CACHE')")
     public WeatherApiReactiveClient reactiveClientNoCache(OpenWeatherApiConfigProperties properties) {
-        log.info("Configuring WeatherApiReactiveClient client with no cache");
+        log.info("Configuring WeatherApiReactiveClient with no cache");
         return WeatherApiReactiveClient.builder()
                 .mode(properties.getMode())
                 .baseUrl(properties.getBaseUrl())

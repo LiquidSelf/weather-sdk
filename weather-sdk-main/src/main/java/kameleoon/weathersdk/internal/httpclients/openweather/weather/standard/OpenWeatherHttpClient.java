@@ -29,12 +29,12 @@ public class OpenWeatherHttpClient extends AbstractHttpClient implements Weather
 
     @Override
     public WeatherInfo fetchWeather(@NonNull CityName city) throws ApiClientException {
-        return WeatherInfo.of(sendSync(buildRequest(buildUri(baseUrl, apiKey, city)), OpenWeatherApiResponse.class, city.nameLike()));
+        return WeatherInfo.of(sendSync(buildGetRequest(buildUri(baseUrl, apiKey, city)), OpenWeatherApiResponse.class, city.nameLike()));
     }
 
     @Override
     public CompletableFuture<WeatherInfo> fetchWeatherAsync(@NonNull CityName cityName) {
-        return sendAsync(buildRequest(buildUri(baseUrl, apiKey, cityName)), OpenWeatherApiResponse.class, cityName.nameLike())
+        return sendAsync(buildGetRequest(buildUri(baseUrl, apiKey, cityName)), OpenWeatherApiResponse.class, cityName.nameLike())
                 .thenApply(WeatherInfo::of);
     }
 

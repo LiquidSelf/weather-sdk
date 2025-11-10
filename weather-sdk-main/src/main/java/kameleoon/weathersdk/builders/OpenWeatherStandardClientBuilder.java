@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import java.time.Duration;
 
 /**
+ * Builder used to build {@link WeatherApiStandardClient}
+ *
  * <p><b>Client build example</b>
  * {@snippet :
  * WeatherApiStandardClient client = WeatherApiStandardClient.builder()
@@ -21,6 +23,7 @@ import java.time.Duration;
  *         .inMemoryCache(InMemoryCacheConfig.of(10L, Duration.ofSeconds(10)))
  *         .build();
  *}
+ *
  * @see WebClientBuilderBaseWithCache
  * @see kameleoon.weathersdk.internal.builder.WebClientBuilderBase
  */

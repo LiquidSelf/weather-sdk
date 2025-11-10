@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * Weather API reactive client,
- * To build default client use {@link #builder()}
+ * To build OpenWeather client use {@link #builder()}
  *
  * @see OpenWeatherReactiveClientBuilder
  */

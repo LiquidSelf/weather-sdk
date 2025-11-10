@@ -1,19 +1,16 @@
 package kameleoon.weathersdk.builders;
 
+/**
+ * Cache operation modes.
+ */
 public enum Mode {
 
-    /**
-     * Disable caching
-     */
+    /** Disable caching completely. */
     NO_CACHE,
 
-    /**
-     * Cache-aside cacheing
-     */
+    /** Cache-aside: read-through on demand. */
     REQUEST_CACHE,
 
-    /**
-     * Cache being updated in background
-     */
+    /** Cache updated in background via polling. */
     POLLING_CACHE
 }

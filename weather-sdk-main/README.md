@@ -48,7 +48,7 @@ reactiveClient.close();
 
 ```java
 WeatherApiStandardClient simpleClient = WeatherClients.createSimpleClient("api_key", "https://api.openweathermap.org/data/2.5/weather");
-WeatherInfo londonWeather = simpleClient.fetchWeather(CityName.like("Moscow"));
+WeatherInfo moscowWeather = simpleClient.fetchWeather(CityName.like("Moscow"));
 
 simpleClient.close();
 ```

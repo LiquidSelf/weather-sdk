@@ -9,6 +9,8 @@ import kameleoon.weathersdk.internal.registry.OpenWeatherClientRegistrar;
 import lombok.NoArgsConstructor;
 
 /**
+ * Builder used to build {@link WeatherApiReactiveClient}
+ *
  * <p><b>Client build example</b>
  * {@snippet :
  * WeatherApiReactiveClient reactiveClient = WeatherApiReactiveClient.builder()

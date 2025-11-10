@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 
 /**
  * Weather API reactive client,
- * To build default client use {@link #builder()}
+ * To build OpenWeather client use {@link #builder()}
  *
  * @see OpenWeatherStandardClientBuilder
  */
